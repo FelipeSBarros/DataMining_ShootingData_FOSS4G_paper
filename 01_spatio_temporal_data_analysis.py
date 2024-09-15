@@ -196,7 +196,7 @@ cx.add_basemap(ax3, crs=gdf_rm_salvador.to_crs("EPSG:31984").crs, source=cx.prov
                )
 plt.tight_layout()
 # Save map
-plt.savefig('mapa_1.png', dpi=300, bbox_inches='tight')
+plt.savefig('map_1.png', dpi=300, bbox_inches='tight')
 
 # Mostrar o gráfico
 plt.show()
