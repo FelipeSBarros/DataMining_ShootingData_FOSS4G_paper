@@ -1,6 +1,7 @@
 import folium
 import matplotlib
 from matplotlib.patches import Rectangle
+from matplotlib.lines import Line2D
 import matplotlib.pyplot as plt
 import pandas as pd
 import geopandas as gpd
@@ -81,9 +82,9 @@ tiros_knox_local_ = tiros_knox_local.hotspots()
 shootings_spatemp_hotspot = tiros_knox_local_.sjoin(gdf_rm_salvador)
 
 # saving shootings_spatemp_hotspot as GeoPackage
-shootings_spatemp_hotspot.to_file(
-    "./data/dados_BA.gpkg", layer="shootings_spatemp_hotspot"
-)
+# shootings_spatemp_hotspot.to_file(
+#     "./data/dados_BA.gpkg", layer="shootings_spatemp_hotspot"
+# )
 
 # filtering spatio-temporal hotspots with p-value lower or equals to 0.05
 shootings_spatemp_hotspot = shootings_spatemp_hotspot.loc[
@@ -105,7 +106,9 @@ gs = fig.add_gridspec(2, 2, height_ratios=[1, 1])  # Define uma grid de 2 linhas
 ax1 = fig.add_subplot(gs[0, 0])
 gdf_rm_salvador.plot(ax=ax1, facecolor="none", edgecolor="black")
 tiros_knox_local.plot(
-    ax=ax1, colors={"focal": "red", "neighbor": "yellow", "nonsig": "none"}
+    ax=ax1,
+    colors={"focal": "red", "neighbor": "yellow", "nonsig": "none"},
+    plot_edges=False
 )
 cx.add_basemap(ax1, crs=gdf_rm_salvador.to_crs(31984).crs)
 ax1.set_title("Metropolitan Region of Salvador")
@@ -130,27 +133,29 @@ salvador_rect = Rectangle(
 ax1.add_patch(salvador_rect)
 
 # Second map: Salvador area map
-ax2 = fig.add_subplot(gs[0, 1])
+ax2 = fig.add_subplot(gs[1, 0])
 gdf_rm_salvador.plot(ax=ax2, facecolor="none", edgecolor="black")
 tiros_knox_local.plot(
-    ax=ax2, colors={"focal": "red", "neighbor": "yellow", "nonsig": "none"}
-)
-cx.add_basemap(
-    ax2,
-    crs=gdf_rm_salvador.to_crs(31984).crs,
-    # source=cx.providers.Esri.WorldImagery,
-    zoom=12,
+    ax=ax2,
+    colors={"focal": "red", "neighbor": "yellow", "nonsig": "none"},
+    plot_edges=False
 )
 ax2.set_xlim(salvador_xmin_zoom, salvador_xmax_zoom)
 ax2.set_ylim(salvador_ymin_zoom, salvador_ymax_zoom)
 ax2.set_title("Salvador area")
+cx.add_basemap(
+    ax2,
+    crs=gdf_rm_salvador.to_crs(31984).crs,
+    # source=cx.providers.Esri.WorldImagery,
+    zoom=13,
+)
 
 # Define a zoom to a specific example of Knox local hotspot
 example_xmin_zoom, example_ymin_zoom, example_xmax_zoom, example_ymax_zoom = (
     551933,
-    8563034,
+    8564000,
     553259,
-    8561993
+    8561500
     # 556116,
     # 8562535,
     # 558210,
@@ -170,22 +175,25 @@ example_rect = Rectangle(
 ax2.add_patch(example_rect)
 
 # Third map: specific Knox local hotspot
-ax3 = fig.add_subplot(gs[1, :])
+ax3 = fig.add_subplot(gs[:, 1])
 gdf_rm_salvador.plot(ax=ax3, facecolor="none", edgecolor="black")
 tiros_knox_local.plot(ax=ax3, colors={"focal": "red", "neighbor": "yellow", "nonsig": "none"})
+focal_point = Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Focal')
+neighbor_point = Line2D([0], [0], marker='o', color='w', markerfacecolor='yellow', markersize=10, label='Neighbor')
 ax3.set_xlim(example_xmin_zoom, example_xmax_zoom)
 ax3.set_ylim(example_ymax_zoom, example_ymin_zoom)
-ax3.set_title('Knox local spatio-temporal example')
+ax3.set_title('Knox local spatio-temporal hotspot sample')
+ax3.legend(handles=[focal_point, neighbor_point], loc='upper right')
+
 # Add annotations to the map
 for idx, row in shootings_spatemp_hotspot.iterrows():
     point_x, point_y = row.geometry.x, row.geometry.y
     ax3.annotate(text=row['focal_time'], xy=(point_x, point_y), fontsize=8, color='red',
-                xytext=(3, 3), textcoords="offset points")
+                 xytext=(3, 3), textcoords="offset points")
 
 cx.add_basemap(ax3, crs=gdf_rm_salvador.to_crs("EPSG:31984").crs, source=cx.providers.Esri.WorldImagery,
                #zoom=15
                )
-
 plt.tight_layout()
 # Save map
 plt.savefig('mapa_1.png', dpi=300, bbox_inches='tight')
