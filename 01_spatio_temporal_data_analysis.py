@@ -100,7 +100,7 @@ shootings_spatemp_hotspot.groupby(
 # Create map with Knox Local results
 # Create fig with gridspec
 fig = plt.figure(figsize=(15, 10))
-gs = fig.add_gridspec(2, 2, height_ratios=[1, 1])  # Define uma grid de 2 linhas e 2 colunas
+gs = fig.add_gridspec(2, 2, height_ratios=[1, 1])
 
 # First map: Reference Map: first line, first column
 ax1 = fig.add_subplot(gs[0, 0])
@@ -108,7 +108,7 @@ gdf_rm_salvador.plot(ax=ax1, facecolor="none", edgecolor="black")
 tiros_knox_local.plot(
     ax=ax1,
     colors={"focal": "red", "neighbor": "yellow", "nonsig": "none"},
-    plot_edges=False
+    plot_edges=False,
 )
 cx.add_basemap(ax1, crs=gdf_rm_salvador.to_crs(31984).crs)
 ax1.set_title("Metropolitan Region of Salvador")
@@ -118,17 +118,17 @@ salvador_xmin_zoom, salvador_ymin_zoom, salvador_xmax_zoom, salvador_ymax_zoom =
     550667,
     8560768,
     558163,
-    8566284)
+    8566284,
+)
 # Add Salvador Area as a rectangle in the reference map
 salvador_rect = Rectangle(
-    (salvador_xmin_zoom,
-     salvador_ymin_zoom),
+    (salvador_xmin_zoom, salvador_ymin_zoom),
     salvador_xmax_zoom - salvador_xmin_zoom,
     salvador_ymax_zoom - salvador_ymin_zoom,
     linewidth=2,
     edgecolor="black",
     facecolor="none",
-    linestyle='dotted'
+    linestyle="dotted",
 )
 ax1.add_patch(salvador_rect)
 
@@ -138,7 +138,7 @@ gdf_rm_salvador.plot(ax=ax2, facecolor="none", edgecolor="black")
 tiros_knox_local.plot(
     ax=ax2,
     colors={"focal": "red", "neighbor": "yellow", "nonsig": "none"},
-    plot_edges=False
+    plot_edges=False,
 )
 ax2.set_xlim(salvador_xmin_zoom, salvador_xmax_zoom)
 ax2.set_ylim(salvador_ymin_zoom, salvador_ymax_zoom)
@@ -155,48 +155,64 @@ example_xmin_zoom, example_ymin_zoom, example_xmax_zoom, example_ymax_zoom = (
     551933,
     8564000,
     553259,
-    8561500
-    # 556116,
-    # 8562535,
-    # 558210,
-    # 8561240
+    8561500,
 )
 # Add example area as a rectangle to the Salvador map
 example_rect = Rectangle(
-    (example_xmin_zoom,
-     example_ymin_zoom),
+    (example_xmin_zoom, example_ymin_zoom),
     example_xmax_zoom - example_xmin_zoom,
     example_ymax_zoom - example_ymin_zoom,
     linewidth=2,
     edgecolor="black",
     facecolor="none",
-    linestyle='dotted'
+    linestyle="dotted",
 )
 ax2.add_patch(example_rect)
 
 # Third map: specific Knox local hotspot
 ax3 = fig.add_subplot(gs[:, 1])
 gdf_rm_salvador.plot(ax=ax3, facecolor="none", edgecolor="black")
-tiros_knox_local.plot(ax=ax3, colors={"focal": "red", "neighbor": "yellow", "nonsig": "none"})
-focal_point = Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Focal')
-neighbor_point = Line2D([0], [0], marker='o', color='w', markerfacecolor='yellow', markersize=10, label='Neighbor')
+tiros_knox_local.plot(
+    ax=ax3, colors={"focal": "red", "neighbor": "yellow", "nonsig": "none"}
+)
+focal_point = Line2D(
+    [0], [0], marker="o", color="w", markerfacecolor="red", markersize=10, label="Focal"
+)
+neighbor_point = Line2D(
+    [0],
+    [0],
+    marker="o",
+    color="w",
+    markerfacecolor="yellow",
+    markersize=10,
+    label="Neighbor",
+)
 ax3.set_xlim(example_xmin_zoom, example_xmax_zoom)
 ax3.set_ylim(example_ymax_zoom, example_ymin_zoom)
-ax3.set_title('Knox local spatio-temporal hotspot sample')
-ax3.legend(handles=[focal_point, neighbor_point], loc='upper right')
+ax3.set_title("Knox local spatio-temporal hotspot sample")
+ax3.legend(handles=[focal_point, neighbor_point], loc="upper right")
 
 # Add annotations to the map
 for idx, row in shootings_spatemp_hotspot.iterrows():
     point_x, point_y = row.geometry.x, row.geometry.y
-    ax3.annotate(text=row['focal_time'], xy=(point_x, point_y), fontsize=8, color='red',
-                 xytext=(3, 3), textcoords="offset points")
+    ax3.annotate(
+        text=row["focal_time"],
+        xy=(point_x, point_y),
+        fontsize=8,
+        color="red",
+        xytext=(3, 3),
+        textcoords="offset points",
+    )
 
-cx.add_basemap(ax3, crs=gdf_rm_salvador.to_crs("EPSG:31984").crs, source=cx.providers.Esri.WorldImagery,
-               #zoom=15
-               )
+cx.add_basemap(
+    ax3,
+    crs=gdf_rm_salvador.to_crs("EPSG:31984").crs,
+    source=cx.providers.Esri.WorldImagery,
+    # zoom=15
+)
 plt.tight_layout()
 # Save map
-plt.savefig('map_1.png', dpi=300, bbox_inches='tight')
+plt.savefig("results/map_1.png", dpi=300, bbox_inches="tight")
 
 # Mostrar o gráfico
 plt.show()
@@ -205,4 +221,4 @@ plt.show()
 e = tiros_knox_local.explore()
 folium.GeoJson(gdf_rm_salvador).add_to(e)
 e.add_child(folium.map.LayerControl())
-e.save("Knox_local_test_result.html")
+e.save("results/Knox_local_test_result.html")

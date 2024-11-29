@@ -23,3 +23,9 @@ Also, this repository already has the data collected in the `data` folder, for r
 
 # Analysis
 The analysis is divided into two parts: the first part is the data collection, which can be found in the [00_getting_data.py](./00_getting_data.py) file, and the second part is the data analysis, which can be found in the [01_data_analysis.py](./01_data_analysis.py) file.
+
+# Results
+You can find the results of the analysis as:
+ * [Paper](./paper/Felipefoss4g-2024-academic-track-FogoCruzado.pdf);
+ * [Presentation]();
+ * [Webapp](./results/Knox_local_test_result.html).

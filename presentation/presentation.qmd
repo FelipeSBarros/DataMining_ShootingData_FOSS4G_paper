@@ -1,0 +1,68 @@
+---
+title: "Applying spatio-temporal analysis for data mining on shooting data"
+author:
+    Felipe Sodré Mendes Barros;
+    Terine Husek Coelho;
+    Iris Rosa;
+    Davi Santos 
+format:
+  revealjs:
+    incremental: true   
+    logo: img/Fogocruzado_header.png
+---
+
+# What is "fogo Cruzado"?
+
+## Fogo Cruzado
+
+> <img src="./img/Fogocruzado_icon.png" style="width: 10%; float: left;" />"Fogo Cruzado is a term used in Brazil to describe a conflict involving gunfire. 
+
+## Fogo Cruzado Institute
+:::: {.columns}
+
+::: {.column width="60%"}
+[Fogo Cruzado Institute](fogocruzado.org.br):  
+- 1$^{st}$ open database on armed violence in Latin America;  
+- It monitor and collects crowd-sourced data from shootings, verified in real time by a specialized local team;  
+- Region of interest: Metropolitan regions of Rio de Janeiro, Recife, Salvador, and Belém in Brazil;
+
+:::
+
+::: {.column width="40%"}
+<img src="./img/FogoCruzado_app.png"/>
+:::
+
+::::
+
+
+# Why data mining on shooting data?
+
+## Why?
+
+- Over 60,340 shooting records;
+- About 18 new records added daily;
+- With spatial coordinates;
+<img src="./img/simpsonsdotmap.png" style="width=80%; float: right;"/>
+- Time stamped;
+
+. . .
+
+
+- It is hard to keep up when there is so much going on.
+
+# How to mine?
+
+We could do data mining, as some have done ^[paper data mining], considering only the spatial attribute of the shooting data. However, we would lose the opportunity to identify subsequent shootings.
+
+The Knox local spatio-temporal correlation approach is a powerful tool that incorporates both spatial ($\tau$) and temporal ($\Delta$) attributes.
+
+It helps researchers and practitioners comprehend the spatial and temporal dynamics of gun violence, which can inform broader theories about crime and victimization
+
+importance of defining near-repeat parameters accurately. By expanding the definition of near-repeats, researchers can uncover more incidents, which can lead to a better understanding of crime dynamics and more effective prevention strategies.
+
+Analysing shootings using spatiotemporal methods has the potential to enhance our understanding by integrating both temporal and spatial components, rather than examining them in isolation. This approach, when applied as a data mining tool on datasets like Fogo Cruzado's, can reveal recurrent territorial conflicts where events recur both spatially and temporally, providing valuable insights into the nature of gun assaults.
+
+# Data mining parameters
+
+- $\tau$ we used 5 days as the cutoff temporal distance between shootings
+- and 300 metres as the $\Delta$ threshold.
