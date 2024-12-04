@@ -270,3 +270,11 @@ m._location = [-38.49897, -13.00168]
 m._zoom_start = 8
 m
 ```
+
+## News
+
+<img src="./img/Noticia_1.png" style="width=80%; center;"/>
+
+## Link to this presentation
+
+<img src="./img/FOSS4GPresentation.png" style="width=80%; center;"/>
