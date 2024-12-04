@@ -9,6 +9,9 @@ format:
   revealjs:
     incremental: true   
     logo: img/Fogocruzado_header.png
+project:
+  type: website
+  output-dir: docs
 ---
 
 # About me :)
