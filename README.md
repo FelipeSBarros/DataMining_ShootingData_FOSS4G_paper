@@ -26,6 +26,6 @@ The analysis is divided into two parts: the first part is the data collection, w
 
 # Results
 You can find the results of the analysis as:
- * [Paper](./paper/Felipefoss4g-2024-academic-track-FogoCruzado.pdf);
+ * [Paper](https://zenodo.org/records/14251098);
  * [Presentation](./presentation/presentation.html);
  * [Webapp](./results/Knox_local_test_result.html).
